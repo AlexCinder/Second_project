@@ -1,4 +1,6 @@
 package com.example.notesapp;
 
-public class Service {
+import java.io.Serializable;
+
+public class Service implements Serializable {
 }
