@@ -20,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.SearchView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +31,15 @@ public class MainActivity extends AppCompatActivity {
     private NotesAdapter adapter;
     private final List<Note> notes = new ArrayList<>();
     private MainViewModel viewModel;
+    private FirebaseFirestore db;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        db = FirebaseFirestore.getInstance();
+         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);

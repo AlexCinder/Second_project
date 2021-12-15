@@ -21,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
 ;import org.joda.time.DateTime;
 
 import java.text.DateFormat;
@@ -43,7 +44,8 @@ public class AddNote extends AppCompatActivity {
     private String uri = "empty";
     private boolean state = true;
     private Note note;
-    private final String pattern = "dd-MM-yyyy";
+    private final String pattern = "dd-MM-yyyy-hh";
+    private FirebaseFirestore db;
 
 
     private final ActivityResultLauncher<Intent> searchImage = registerForActivityResult(
@@ -111,8 +113,9 @@ public class AddNote extends AppCompatActivity {
         String dayOfWeek = spinner.getSelectedItem().toString().trim();
         if (!title.isEmpty() || !description.isEmpty()) {
             if (state) {
-                viewModel.insertNoteTask(new Note
-                        (title, description, dayOfWeek, priority, uri,lastEdit ));
+                Note tempNote = new Note(title, description, dayOfWeek, priority, uri, lastEdit);
+                long id = viewModel.insertNoteTask(tempNote);
+                viewModel.upNoteRemote(((int)id),tempNote);
 
             } else {
                 note.setUri(uri);
@@ -122,6 +125,7 @@ public class AddNote extends AppCompatActivity {
                 note.setDayOfWeek(dayOfWeek);
                 note.setLastEditDate(lastEdit);
                 viewModel.upNoteTask(note);
+                viewModel.upNoteRemote(note.getId(), note);
             }
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -176,7 +180,6 @@ public class AddNote extends AppCompatActivity {
     public String convertTime() {
         SimpleDateFormat nowTime = new SimpleDateFormat(pattern, Locale.getDefault());
         return nowTime.format(new Date());
-
 
 
     }

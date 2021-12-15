@@ -5,15 +5,23 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 public class AddNoteViewModel extends AndroidViewModel {
 
     private final NotesRepo notesRepo;
+    private final FirebaseFirestore fireBase;
 
 
     public AddNoteViewModel(@NonNull Application application) {
         super(application);
         notesRepo = new NotesRepo(application);
+        fireBase = notesRepo.getFireStore();
 
+    }
+
+    public void upNoteRemote(int id, Note note) {
+        notesRepo.upNoteRemote(id, note);
     }
 
     public void upNoteTask(Note note) {
@@ -22,8 +30,8 @@ public class AddNoteViewModel extends AndroidViewModel {
     }
 
 
-    public void insertNoteTask(Note note) {
-        notesRepo.insertNoteTask(note);
+    public long insertNoteTask(Note note) {
+        return notesRepo.insertNoteTask(note);
     }
 
 
