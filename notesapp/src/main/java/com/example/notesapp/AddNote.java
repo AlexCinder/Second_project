@@ -8,14 +8,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,7 +21,13 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-;
+;import org.joda.time.DateTime;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class AddNote extends AppCompatActivity {
     private EditText edTitle;
@@ -40,6 +43,7 @@ public class AddNote extends AppCompatActivity {
     private String uri = "empty";
     private boolean state = true;
     private Note note;
+    private final String pattern = "dd-MM-yyyy";
 
 
     private final ActivityResultLauncher<Intent> searchImage = registerForActivityResult(
@@ -99,6 +103,7 @@ public class AddNote extends AppCompatActivity {
     }
 
     public void done(View view) {
+        String lastEdit = convertTime();
         String description = edDescription.getText().toString().trim();
         String title = edTitle.getText().toString().trim();
         int priority = Integer.parseInt(findViewById(radioGroup.getCheckedRadioButtonId()).
@@ -106,7 +111,8 @@ public class AddNote extends AppCompatActivity {
         String dayOfWeek = spinner.getSelectedItem().toString().trim();
         if (!title.isEmpty() || !description.isEmpty()) {
             if (state) {
-                viewModel.insertNoteTask(new Note(title, description, dayOfWeek, priority, uri));
+                viewModel.insertNoteTask(new Note
+                        (title, description, dayOfWeek, priority, uri,lastEdit ));
 
             } else {
                 note.setUri(uri);
@@ -114,6 +120,7 @@ public class AddNote extends AppCompatActivity {
                 note.setTitle(title);
                 note.setPriority(priority);
                 note.setDayOfWeek(dayOfWeek);
+                note.setLastEditDate(lastEdit);
                 viewModel.upNoteTask(note);
             }
             Intent intent = new Intent(this, MainActivity.class);
@@ -164,5 +171,13 @@ public class AddNote extends AppCompatActivity {
                 return i;
         }
         return 0;
+    }
+
+    public String convertTime() {
+        SimpleDateFormat nowTime = new SimpleDateFormat(pattern, Locale.getDefault());
+        return nowTime.format(new Date());
+
+
+
     }
 }

@@ -50,6 +50,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         holder.tvTitle.setText(note.getTitle());
         holder.tvDescription.setText(note.getDescription());
         holder.tvDayOfWeek.setText(note.getDayOfWeek());
+        holder.tvLastEdit.setText(note.getLastEditDate());
         int colorId;
         int priority = note.getPriority();
         switch (priority) {
@@ -100,7 +101,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvDayOfWeek = itemView.findViewById(R.id.tvDayOfWeek);
-            tvLastEdit = itemView.findViewById(R.id.last_date)
+            tvLastEdit = itemView.findViewById(R.id.last_date);
 
 
         }
