@@ -16,17 +16,16 @@
             android:id="@+id/last_date"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/last_edit_s"
-            android:textStyle="bold"
+            android:layout_marginEnd="8dp"
             android:fontFamily="casual"
+            android:padding="8dp"
+            android:text="@string/last_edit_s"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textAlignment="viewStart"
 
-
-            />
+            app:layout_constraintTop_toTopOf="@+id/tvDayOfWeek" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -68,8 +67,8 @@
             android:fontFamily="casual"
             android:maxLines="1"
             android:padding="8dp"
-
-            android:textSize="24sp"
+            android:text="ffffffffffff"
+            android:textSize="12sp"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
