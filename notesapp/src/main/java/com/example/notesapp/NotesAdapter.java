@@ -92,6 +92,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         final TextView tvTitle;
         final TextView tvDescription;
         final TextView tvDayOfWeek;
+        final TextView tvLastEdit;
 
 
         public NotesViewHolder(@NonNull View itemView) {
@@ -99,6 +100,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvDayOfWeek = itemView.findViewById(R.id.tvDayOfWeek);
+            tvLastEdit = itemView.findViewById(R.id.last_date)
 
 
         }

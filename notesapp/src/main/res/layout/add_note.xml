@@ -82,7 +82,7 @@
         android:background="@android:drawable/editbox_background"
         android:ems="10"
         android:fontFamily="casual"
-        android:hint="Title"
+        android:hint="@string/title_add_note"
         android:inputType="textPersonName"
         android:minHeight="48dp"
         android:padding="8dp"
@@ -108,7 +108,7 @@
         android:background="@android:drawable/editbox_background"
         android:ems="10"
         android:fontFamily="casual"
-        android:hint="Description"
+        android:hint="@string/description_add_note"
         android:inputType="textMultiLine"
         android:padding="8dp"
         android:textColor="@color/black"
@@ -157,7 +157,7 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:minHeight="48dp"
                 android:tag="1"
-                android:text="High priority"
+                android:text="@string/high_priority"
                 android:textColorHighlight="@color/black"
                 android:textColorLink="@color/black" />
 
@@ -170,7 +170,7 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:minHeight="48dp"
                 android:tag="2"
-                android:text="Medium priority"
+                android:text="@string/medium_priority"
                 android:textColorHighlight="@color/black"
                 android:textColorLink="@color/black" />
 
@@ -183,7 +183,7 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:minHeight="48dp"
                 android:tag="3"
-                android:text="Low priority"
+                android:text="@string/low_priority"
                 android:textColorHighlight="@color/black"
                 android:textColorLink="@color/black" />
         </RadioGroup>

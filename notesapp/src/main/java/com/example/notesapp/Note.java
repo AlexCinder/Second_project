@@ -17,23 +17,36 @@ public class Note implements Serializable {
     private int priority;
     private String uri;
 
-    public Note(int id, String title, String description, String dayOfWeek, int priority, String uri) {
+    public String getLastEditDate() {
+        return lastEditDate;
+    }
+
+    public void setLastEditDate(String lastEditDate) {
+        this.lastEditDate = lastEditDate;
+    }
+
+    private String lastEditDate;
+
+    public Note(int id, String title, String description, String dayOfWeek, int priority,
+                String uri,String lastEditDate) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.dayOfWeek = dayOfWeek;
         this.priority = priority;
         this.uri = uri;
+        this.lastEditDate = lastEditDate;
     }
 
     @Ignore
-    public Note(String title, String description, String dayOfWeek, int priority, String uri) {
+    public Note(String title, String description, String dayOfWeek, int priority,
+                String uri, String lastEditDate) {
         this.title = title;
         this.description = description;
         this.dayOfWeek = dayOfWeek;
         this.priority = priority;
         this.uri = uri;
-
+        this.lastEditDate = lastEditDate;
     }
 
     public void setTitle(String title) {
@@ -90,16 +103,11 @@ public class Note implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Note note = (Note) o;
-        return getId() == note.getId() &&
-                getPriority() == note.getPriority() &&
-                getTitle().equals(note.getTitle()) &&
-                getDescription().equals(note.getDescription()) &&
-                getDayOfWeek().equals(note.getDayOfWeek()) &&
-                getUri().equals(note.getUri());
+        return getId() == note.getId() && getPriority() == note.getPriority() && Objects.equals(getTitle(), note.getTitle()) && Objects.equals(getDescription(), note.getDescription()) && getDayOfWeek().equals(note.getDayOfWeek()) && getLastEditDate().equals(note.getLastEditDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getTitle(), getDescription(), getDayOfWeek(), getPriority(), getUri());
+        return Objects.hash(getId(), getTitle(), getDescription(), getDayOfWeek(), getPriority(), getLastEditDate());
     }
 }

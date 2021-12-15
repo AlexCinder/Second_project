@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">NotesApp</string>
     <string name="last_edit">Last edit </string>
+    <string name="title_add_note">Title</string>
+    <string name="description_add_note">Description</string>
+    <string name="high_priority">High priority</string>
+    <string name="medium_priority">Medium priority</string>
+    <string name="low_priority">Low priority</string>
+    <string name="last_edit_s">Last edit: %s</string>
     <string-array name="day_of_week">
         <item>Monday</item>
         <item>Tuesday</item>

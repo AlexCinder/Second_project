@@ -12,57 +12,67 @@
         android:layout_height="match_parent"
         android:paddingBottom="8dp">
 
-
         <TextView
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:id="@+id/tvTitle"
-            style="@android:style/Widget.TextView"
+            android:id="@+id/last_date"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:padding="8dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/last_edit_s"
+            android:textStyle="bold"
             android:fontFamily="casual"
+
+
+            />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:ellipsize="end"
+            android:fontFamily="casual"
+            android:maxLines="1"
             android:padding="8dp"
 
             android:textAlignment="viewStart"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-             />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:ellipsize="end"
-            android:maxLines="1"
             android:id="@+id/tvDescription"
             style="@android:style/Widget.TextView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:ellipsize="end"
             android:fontFamily="casual"
-
+            android:maxLines="1"
             android:padding="8dp"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-           />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
         <TextView
-            android:ellipsize="end"
-            android:maxLines="1"
             android:id="@+id/tvDayOfWeek"
             style="@android:style/Widget.TextView"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:ellipsize="end"
             android:fontFamily="casual"
+            android:maxLines="1"
             android:padding="8dp"
 
             android:textSize="24sp"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDescription"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
