@@ -11,6 +11,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -18,25 +20,27 @@ public class MainViewModel extends AndroidViewModel {
 
 
     private final LiveData<List<Note>> allNotes;
-    private  MutableLiveData<String> allQueryNotes;
+    private MutableLiveData<String> allQueryNotes;
     private final NotesRepo notesRepo;
+    private final FirebaseFirestore db;
 
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         notesRepo = new NotesRepo(application);
         allQueryNotes = new MutableLiveData<>("");
-        allNotes = Transformations.switchMap(allQueryNotes, new Function<String, LiveData<List<Note>>>() {
-            @Override
-            public LiveData<List<Note>> apply(String input) {
-                Log.i("TAG", "getData");
-                if (TextUtils.isEmpty(input)){
-                return notesRepo.allNotes();}
-                else return notesRepo.allQueryNotes(input);
-            }
+        allNotes = Transformations.switchMap(allQueryNotes, input -> {
+            Log.i("TAG", "getData");
+            if (TextUtils.isEmpty(input)) {
+                return notesRepo.allNotes();
+            } else return notesRepo.allQueryNotes(input);
         });
+        db = notesRepo.getFireStore();
 
+    }
 
+    public void syncData(List<Note> note) {
+        notesRepo.syncDataRemote(note);
     }
 
     public LiveData<List<Note>> getLiveNotes() {

@@ -1,6 +1,7 @@
 package com.example.notesapp;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -20,7 +21,7 @@ public class AddNoteViewModel extends AndroidViewModel {
 
     }
 
-    public void upNoteRemote(int id, Note note) {
+    public void upNoteRemote(long id, Note note) {
         notesRepo.upNoteRemote(id, note);
     }
 
@@ -30,8 +31,9 @@ public class AddNoteViewModel extends AndroidViewModel {
     }
 
 
-    public long insertNoteTask(Note note) {
-        return notesRepo.insertNoteTask(note);
+    public void insertNoteTask(Note note) {
+         notesRepo.insertNoteTask(note);
+
     }
 
 

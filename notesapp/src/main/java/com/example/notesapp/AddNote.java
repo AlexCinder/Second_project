@@ -44,7 +44,7 @@ public class AddNote extends AppCompatActivity {
     private String uri = "empty";
     private boolean state = true;
     private Note note;
-    private final String pattern = "dd-MM-yyyy-hh";
+    private final String pattern = "dd-MMM-yyyy-HH:mm";
     private FirebaseFirestore db;
 
 
@@ -55,7 +55,7 @@ public class AddNote extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                         uri = result.getData().getData().toString();
-                        Log.i("TAG", uri);
+
                         im.setImageURI(result.getData().getData());
                         getContentResolver().takePersistableUriPermission(result.getData().
                                 getData(), Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -114,8 +114,7 @@ public class AddNote extends AppCompatActivity {
         if (!title.isEmpty() || !description.isEmpty()) {
             if (state) {
                 Note tempNote = new Note(title, description, dayOfWeek, priority, uri, lastEdit);
-                long id = viewModel.insertNoteTask(tempNote);
-                viewModel.upNoteRemote(((int)id),tempNote);
+                viewModel.insertNoteTask(tempNote);
 
             } else {
                 note.setUri(uri);

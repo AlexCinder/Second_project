@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity(tableName = "ROOM_notes")
 public class Note implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String title;
     private String description;
     private String dayOfWeek;
@@ -27,7 +27,7 @@ public class Note implements Serializable {
 
     private String lastEditDate;
 
-    public Note(int id, String title, String description, String dayOfWeek, int priority,
+    public Note(long id, String title, String description, String dayOfWeek, int priority,
                 String uri,String lastEditDate) {
         this.id = id;
         this.title = title;
@@ -65,7 +65,7 @@ public class Note implements Serializable {
         this.priority = priority;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -74,7 +74,7 @@ public class Note implements Serializable {
     }
 
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

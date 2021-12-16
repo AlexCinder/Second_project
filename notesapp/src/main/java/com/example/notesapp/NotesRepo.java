@@ -23,7 +23,7 @@ public class NotesRepo {
     private final NotesDatabase database;
     private final Executor executor;
     private final FirebaseFirestore fireStore;
-    private final Map<Integer, Note> fireNotes;
+    private final Map<String, Note> fireNotes;
 
     public NotesRepo(Application application) {
         database = NotesDatabase.getInstance(application);
@@ -35,9 +35,9 @@ public class NotesRepo {
 
     }
 
-    public void upNoteRemote(int id, Note note) {
-        fireNotes.put(id, note);
-        syncData();
+    public void upNoteRemote(long id, Note note) {
+        fireStore.collection("notes")
+                .document(String.valueOf(id)).set(note);
     }
 
     public FirebaseFirestore getFireStore() {
@@ -52,40 +52,27 @@ public class NotesRepo {
         return notesDao.querySearch(newText);
     }
 
-    public long insertNoteTask(Note note) {
-        long[] id = new long[1];
-        executor.execute(() -> id[0] = notesDao.insertNote(note));
-        return id[0];
+    public void insertNoteTask(Note note) {
+
+        executor.execute(() -> notesDao.insertNote(note));
     }
 
     public void deleteNoteTask(Note note) {
-        executor.execute(() -> {
-            notesDao.deleteNote(note);
-            Log.i("Executor", Thread.currentThread().getName());
-        });
+        executor.execute(() -> notesDao.deleteNote(note));
 
     }
 
     public void upNoteTask(Note note) {
-        executor.execute(() -> {
-            notesDao.update(note);
-            Log.i("Executor", String.valueOf(Thread.currentThread().getName()));
-        });
+        executor.execute(() -> notesDao.update(note));
 
     }
 
-    private void syncData() {
-        fireStore.collection("notes").add(fireNotes)
-        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(@NonNull DocumentReference documentReference) {
-               Log.i("TAG","Success");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.i("TAG","Fail");
-            }
-        });
+    public void syncDataRemote(List<Note> note) {
+        for (Note n : note) {
+            fireStore.collection("notes")
+                    .document(String.valueOf(n.getId())).set(n);
+        }
     }
+
+
 }

@@ -18,7 +18,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -67,7 +69,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         MenuItem item = menu.findItem(R.id.id_search);
+        MenuItem item2 = menu.findItem(R.id.id_sync);
         SearchView searchView = (SearchView) item.getActionView();
+        Button button = (Button) item2.getActionView();
+        button.setOnClickListener(v -> viewModel.syncData(notes));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -126,13 +131,12 @@ public class MainActivity extends AppCompatActivity {
     private void getData() {
         LiveData<List<Note>> notesFromDB = viewModel.getLiveNotes();
         notesFromDB.observe(this, fromDB -> {
-            Log.i("TAG", "getData");
+//            Log.i("TAG", "getData");
 //            adapter.showChanges(notes, fromDB);
             notes.clear();
             notes.addAll(fromDB);
             adapter.notifyDataSetChanged();
         });
     }
-
 
 }
