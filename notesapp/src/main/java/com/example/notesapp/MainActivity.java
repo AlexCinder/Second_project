@@ -71,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.id_search);
         MenuItem item2 = menu.findItem(R.id.id_sync);
         SearchView searchView = (SearchView) item.getActionView();
-        Button button = (Button) item2.getActionView();
-        button.setOnClickListener(v -> viewModel.syncData(notes));
+
+//        button.setOnClickListener(v -> viewModel.syncData(notes));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -88,6 +88,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.id_sync:
+                viewModel.syncData(notes);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void addNote(View view) {
