@@ -23,14 +23,14 @@ public class NotesRepo {
     private final NotesDatabase database;
     private final Executor executor;
     private final FirebaseFirestore fireStore;
-    private final Map<String, Note> fireNotes;
+//    private final Map<String, Note> fireNotes;
 
     public NotesRepo(Application application) {
         database = NotesDatabase.getInstance(application);
         notesDao = database.notesDao();
         executor = database.getExecutor();
         fireStore = FirebaseFirestore.getInstance();
-        fireNotes = new HashMap<>();
+//        fireNotes = new HashMap<>();
 
 
     }

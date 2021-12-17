@@ -34,9 +34,14 @@
         <entry key="..\:/Second_project/notesapp/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.3472222222222222" />
         <entry key="..\:/Second_project/notesapp/src/main/res/drawable/ic_baseline_sync_24.xml" value="0.3015625" />
         <entry key="..\:/Second_project/notesapp/src/main/res/drawable/image.xml" value="0.3828125" />
+        <entry key="..\:/Second_project/notesapp/src/main/res/layout-w1240dp/login.xml" value="0.3578125" />
+        <entry key="..\:/Second_project/notesapp/src/main/res/layout-w936dp/login.xml" value="0.275" />
         <entry key="..\:/Second_project/notesapp/src/main/res/layout/add_note.xml" value="0.33" />
-        <entry key="..\:/Second_project/notesapp/src/main/res/layout/main.xml" value="0.33" />
+        <entry key="..\:/Second_project/notesapp/src/main/res/layout/login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Second_project/notesapp/src/main/res/layout/loginxml.xml" value="0.35260416666666666" />
+        <entry key="..\:/Second_project/notesapp/src/main/res/layout/main.xml" value="0.5" />
         <entry key="..\:/Second_project/notesapp/src/main/res/layout/note_item.xml" value="0.5" />
+        <entry key="..\:/Second_project/notesapp/src/main/res/layout/register.xml" value="0.36666666666666664" />
         <entry key="..\:/Second_project/notesapp/src/main/res/menu/menu.xml" value="0.3625" />
         <entry key="..\:/Second_project/sql/src/main/res/drawable/ic_launcher_background.xml" value="0.259375" />
         <entry key="..\:/Second_project/sql/src/main/res/layout/weather_app.xml" value="0.33" />

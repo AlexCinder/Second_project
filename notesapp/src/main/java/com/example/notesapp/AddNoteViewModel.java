@@ -11,13 +11,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class AddNoteViewModel extends AndroidViewModel {
 
     private final NotesRepo notesRepo;
-    private final FirebaseFirestore fireBase;
+//    private final FirebaseFirestore fireBase;
 
 
     public AddNoteViewModel(@NonNull Application application) {
         super(application);
         notesRepo = new NotesRepo(application);
-        fireBase = notesRepo.getFireStore();
+//        fireBase = notesRepo.getFireStore();
 
     }
 

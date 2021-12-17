@@ -22,7 +22,7 @@ public class MainViewModel extends AndroidViewModel {
     private final LiveData<List<Note>> allNotes;
     private MutableLiveData<String> allQueryNotes;
     private final NotesRepo notesRepo;
-    private final FirebaseFirestore db;
+//    private final FirebaseFirestore db;
 
 
     public MainViewModel(@NonNull Application application) {
@@ -35,7 +35,7 @@ public class MainViewModel extends AndroidViewModel {
                 return notesRepo.allNotes();
             } else return notesRepo.allQueryNotes(input);
         });
-        db = notesRepo.getFireStore();
+//        db = notesRepo.getFireStore();
 
     }
 

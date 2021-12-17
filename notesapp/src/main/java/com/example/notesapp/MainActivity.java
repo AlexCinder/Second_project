@@ -53,14 +53,11 @@ public class MainActivity extends AppCompatActivity {
         rvNotes.setAdapter(adapter);
         getData();
 
-        adapter.setOnNoteClickListener(new NotesAdapter.OnNoteClickListener() {
-            @Override
-            public void onNoteClick(int position) {
-                Intent intent = new Intent(MainActivity.this, AddNote.class);
-                intent.putExtra("intent", notes.get(position));
-                intent.putExtra("state", false);
-                MainActivity.this.startActivity(intent);
-            }
+        adapter.setOnNoteClickListener(position -> {
+            Intent intent = new Intent(MainActivity.this, AddNote.class);
+            intent.putExtra("intent", notes.get(position));
+            intent.putExtra("state", false);
+            MainActivity.this.startActivity(intent);
         });
 
     }
