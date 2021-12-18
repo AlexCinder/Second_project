@@ -22,6 +22,18 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -33,26 +45,27 @@ public class MainActivity extends AppCompatActivity {
     private NotesAdapter adapter;
     private final List<Note> notes = new ArrayList<>();
     private MainViewModel viewModel;
-    private FirebaseFirestore db;
+    private FirebaseAuth mAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        db = FirebaseFirestore.getInstance();
-         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        mAuth = FirebaseAuth.getInstance();
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
         }
+
         rvNotes = findViewById(R.id.note);
         rvNotes.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NotesAdapter(notes);
         getItemTouchHelper().attachToRecyclerView(rvNotes);
         rvNotes.setAdapter(adapter);
         getData();
-
         adapter.setOnNoteClickListener(position -> {
             Intent intent = new Intent(MainActivity.this, AddNote.class);
             intent.putExtra("intent", notes.get(position));
@@ -66,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         MenuItem item = menu.findItem(R.id.id_search);
-        MenuItem item2 = menu.findItem(R.id.id_sync);
         SearchView searchView = (SearchView) item.getActionView();
 
 //        button.setOnClickListener(v -> viewModel.syncData(notes));
@@ -89,9 +101,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.id_sync:
+                if(mAuth.getCurrentUser() == null){
+                    Intent intent = new Intent(this, RegisterActivity.class);
+                    startActivity(intent);
+                    this.finish();
+                }
                 viewModel.syncData(notes);
+                break;
+            case R.id.id_signIn:
+                Intent intent = new Intent(this, RegisterActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.id_signOu:
+                mAuth.signOut();
+                Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -101,14 +127,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddNote.class);
         startActivity(intent);
     }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("TAG", String.valueOf(notes.size()));
-    }
-
 
     private ItemTouchHelper getItemTouchHelper() {
         return new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -146,4 +164,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-}
+    }
+
+

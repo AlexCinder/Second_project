@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -23,26 +24,29 @@ public class NotesRepo {
     private final NotesDatabase database;
     private final Executor executor;
     private final FirebaseFirestore fireStore;
-//    private final Map<String, Note> fireNotes;
+    private final FirebaseAuth user;
+    private static final String TAG = "TAG";
+    private final Map<String, Note> fireNotes;
 
     public NotesRepo(Application application) {
         database = NotesDatabase.getInstance(application);
         notesDao = database.notesDao();
         executor = database.getExecutor();
         fireStore = FirebaseFirestore.getInstance();
-//        fireNotes = new HashMap<>();
+        user = FirebaseAuth.getInstance();
+        fireNotes = new HashMap<>();
 
 
     }
 
-    public void upNoteRemote(long id, Note note) {
-        fireStore.collection("notes")
-                .document(String.valueOf(id)).set(note);
-    }
+//    public void upNoteRemote(long id, Note note) {
+//        fireStore.collection("notes")
+//               .add(note);
+//    }
 
-    public FirebaseFirestore getFireStore() {
-        return fireStore;
-    }
+//    public FirebaseFirestore getFireStore() {
+//        return fireStore;
+//    }
 
     public LiveData<List<Note>> allNotes() {
         return notesDao.getAllNotes();
@@ -68,10 +72,15 @@ public class NotesRepo {
     }
 
     public void syncDataRemote(List<Note> note) {
+        fireNotes.clear();
         for (Note n : note) {
-            fireStore.collection("notes")
-                    .document(String.valueOf(n.getId())).set(n);
+            fireNotes.put(String.valueOf(n.getId()), n);
         }
+        fireStore.collection("notes")
+                .document(user.getCurrentUser().getUid()).set(fireNotes)
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure:  " + user
+                        .getCurrentUser().getUid()));
+
     }
 
 
