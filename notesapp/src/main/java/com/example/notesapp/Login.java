@@ -72,6 +72,7 @@ public class Login extends AppCompatActivity {
                             //todo something
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
+
                             finish();
                         } else {
                             dialog.dismiss();
@@ -80,5 +81,12 @@ public class Login extends AppCompatActivity {
                     }
                 });
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        dialog.dismiss();
+        super.onDestroy();
     }
 }

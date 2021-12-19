@@ -1,6 +1,7 @@
 package com.example.notesapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -45,16 +47,15 @@ public class MainActivity extends AppCompatActivity {
     private NotesAdapter adapter;
     private final List<Note> notes = new ArrayList<>();
     private MainViewModel viewModel;
-    private FirebaseAuth mAuth;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        mAuth = FirebaseAuth.getInstance();
-
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayShowTitleEnabled(false);
@@ -66,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
         getItemTouchHelper().attachToRecyclerView(rvNotes);
         rvNotes.setAdapter(adapter);
         getData();
+        if (!viewModel.checkUser()) {
+            viewModel.deleteNotes();
+        } else {
+            notes.clear();
+            notes.addAll((viewModel.getCloudData()));
+            adapter.notifyDataSetChanged();
+        }
         adapter.setOnNoteClickListener(position -> {
             Intent intent = new Intent(MainActivity.this, AddNote.class);
             intent.putExtra("intent", notes.get(position));
@@ -79,12 +87,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         MenuItem item = menu.findItem(R.id.id_search);
+        MenuItem item2 = menu.findItem(R.id.id_signIn);
+        MenuItem item3 = menu.findItem(R.id.id_signOu);
         SearchView searchView = (SearchView) item.getActionView();
-
-//        button.setOnClickListener(v -> viewModel.syncData(notes));
+        if (!viewModel.checkUser()) {
+            item3.setVisible(false);
+            item2.setVisible(true);
+        }
+        else if (viewModel.checkUser()){
+            item3.setVisible(true);
+            item2.setVisible(false);
+        }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(final String query) {
                 viewModel.setFilter(query);
                 return false;
             }
@@ -101,12 +117,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.id_sync:
-                if(mAuth.getCurrentUser() == null){
+                if (!viewModel.checkUser()) {
                     Intent intent = new Intent(this, RegisterActivity.class);
                     startActivity(intent);
-                    this.finish();
+
                 }
                 viewModel.syncData(notes);
                 break;
@@ -115,8 +132,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.id_signOu:
-                mAuth.signOut();
+                viewModel.syncData(notes);
+                viewModel.signOut();
                 Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();
+                break;
 
         }
 
@@ -164,6 +183,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    }
+}
 
 

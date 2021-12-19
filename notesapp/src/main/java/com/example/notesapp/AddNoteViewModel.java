@@ -11,18 +11,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class AddNoteViewModel extends AndroidViewModel {
 
     private final NotesRepo notesRepo;
-//    private final FirebaseFirestore fireBase;
-
 
     public AddNoteViewModel(@NonNull Application application) {
         super(application);
         notesRepo = new NotesRepo(application);
-//        fireBase = notesRepo.getFireStore();
 
-    }
-
-    public void upNoteRemote(long id, Note note) {
-        notesRepo.upNoteRemote(id, note);
     }
 
     public void upNoteTask(Note note) {

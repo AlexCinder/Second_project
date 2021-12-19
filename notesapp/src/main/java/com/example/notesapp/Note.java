@@ -1,5 +1,6 @@
 package com.example.notesapp;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -17,6 +18,10 @@ public class Note implements Serializable {
     private int priority;
     private String uri;
 
+    @Ignore
+    public Note() {
+    }
+
     public String getLastEditDate() {
         return lastEditDate;
     }
@@ -28,7 +33,7 @@ public class Note implements Serializable {
     private String lastEditDate;
 
     public Note(long id, String title, String description, String dayOfWeek, int priority,
-                String uri,String lastEditDate) {
+                String uri, String lastEditDate) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -109,5 +114,11 @@ public class Note implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getTitle(), getDescription(), getDayOfWeek(), getPriority(), getLastEditDate());
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

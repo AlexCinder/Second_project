@@ -124,7 +124,7 @@ public class AddNote extends AppCompatActivity {
                 note.setDayOfWeek(dayOfWeek);
                 note.setLastEditDate(lastEdit);
                 viewModel.upNoteTask(note);
-                viewModel.upNoteRemote(note.getId(), note);
+
             }
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -169,7 +169,7 @@ public class AddNote extends AppCompatActivity {
 
     private int getRadioButtonTag(RadioGroup radioGroup, int tag) {
         for (int i = 0; i < radioGroup.getChildCount(); i++) {
-            if (Integer.parseInt(((RadioButton) (radioGroup.getChildAt(i))).
+            if (Integer.parseInt(radioGroup.getChildAt(i).
                     getTag().toString().trim()) == tag)
                 return i;
         }

@@ -1,17 +1,27 @@
 package com.example.notesapp;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Application;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -22,7 +32,6 @@ public class MainViewModel extends AndroidViewModel {
     private final LiveData<List<Note>> allNotes;
     private MutableLiveData<String> allQueryNotes;
     private final NotesRepo notesRepo;
-//    private final FirebaseFirestore db;
 
 
     public MainViewModel(@NonNull Application application) {
@@ -35,8 +44,12 @@ public class MainViewModel extends AndroidViewModel {
                 return notesRepo.allNotes();
             } else return notesRepo.allQueryNotes(input);
         });
-//        db = notesRepo.getFireStore();
 
+
+    }
+
+    public void deleteNotes() {
+        notesRepo.deleteNotes();
     }
 
     public void syncData(List<Note> note) {
@@ -62,5 +75,18 @@ public class MainViewModel extends AndroidViewModel {
         super.onCleared();
 
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public List<Note> getCloudData() {
+        return notesRepo.getCloudData();
+    }
+
+    public void signOut() {
+        notesRepo.signOut();
+    }
+
+    public boolean checkUser() {
+        return notesRepo.checkUser();
     }
 }
